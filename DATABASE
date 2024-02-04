@@ -1,0 +1,150 @@
+
+
+1. **Student Information:**
+   - Table: Students
+     - Columns: StudentID (Primary Key) AUTO_INCREMENT
+     - FirstName
+     - LastName
+     - DateOfBirth
+     - Gender
+     - ContactNumber
+     - Email
+     - Address
+     - ClassID (Foreign Key referencing Classes table)
+     - AdmissionDate
+
+2. **Class Information:**
+   - Table: Classes
+     - Columns: ClassID (Primary Key) AUTO_INCREMENT
+     - ClassName
+
+
+3. **Subject Information:**
+   - Table: Subjects
+     - Columns: SubjectID (Primary Key)AUTO_INCREMENT
+     - SubjectName
+
+4. **Attendance Tracking:**
+   - Table: Attendance
+     - Columns: AttendanceID (Primary Key)AUTO_INCREMENT
+     - StudentID (Foreign Key referencing Students table)
+     - ClassID (Foreign Key referencing Classes table)
+     - Date
+     - Status (Present/Absent)
+
+5. **Grades and Results:**
+   - Table: Results
+     - Columns: ResultID (Primary Key)AUTO_INCREMENT
+     - StudentID (Foreign Key referencing Students table)
+     - SubjectID (Foreign Key referencing Subjects table)
+     - ClassID (Foreign Key referencing Classes table)
+     - ExamDate
+     - Marks
+
+6. **Fees and Payments:**
+   - Table: Fees
+     - Columns: FeeID (Primary Key)AUTO_INCREMENT
+     - StudentID (Foreign Key referencing Students table)
+     - ClassID (Foreign Key referencing Classes table)
+     - FeeType
+     - Amount
+     - PaymentDate
+
+7. **User Accounts:**
+   - Table: Users
+     - Columns: UserID (Primary Key)AUTO_INCREMENT
+     - Username
+     - Password
+     - Role (Admin, Student)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Create the database
+CREATE DATABASE IF NOT EXISTS EducationalManagementSystem;
+USE EducationalManagementSystem;
+
+-- Table: Students
+CREATE TABLE IF NOT EXISTS Students (
+    StudentID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DateOfBirth DATE,
+    Gender VARCHAR(10),
+    ContactNumber VARCHAR(20),
+    Email VARCHAR(100),
+    Address VARCHAR(255),
+    ClassID INT,
+    AdmissionDate DATE,
+    FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+);
+
+-- Table: Classes
+CREATE TABLE IF NOT EXISTS Classes (
+    ClassID INT AUTO_INCREMENT PRIMARY KEY,
+    ClassName VARCHAR(50)
+);
+
+-- Table: Subjects
+CREATE TABLE IF NOT EXISTS Subjects (
+    SubjectID INT AUTO_INCREMENT PRIMARY KEY,
+    SubjectName VARCHAR(50)
+);
+
+-- Table: Attendance
+CREATE TABLE IF NOT EXISTS Attendance (
+    AttendanceID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID INT,
+    ClassID INT,
+    Date DATE,
+    Status VARCHAR(10),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+);
+
+-- Table: Results
+CREATE TABLE IF NOT EXISTS Results (
+    ResultID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID INT,
+    SubjectID INT,
+    ClassID INT,
+    ExamDate DATE,
+    Marks INT,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID),
+    FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+);
+
+-- Table: Fees
+CREATE TABLE IF NOT EXISTS Fees (
+    FeeID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID INT,
+    ClassID INT,
+    FeeType VARCHAR(50),
+    Amount DECIMAL(10, 2),
+    PaymentDate DATE,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+);
+
+-- Table: Users
+CREATE TABLE IF NOT EXISTS Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50),
+    Password VARCHAR(50),
+    Role VARCHAR(20)
+);
+
